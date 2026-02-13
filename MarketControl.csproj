@@ -15,4 +15,11 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.3.0" />
   </ItemGroup>
 
+  <!-- Garante que as configurações locais sejam copiadas para a pasta de saída para que se possa lê-las em tempo de execução. -->
+  <ItemGroup>
+    <None Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

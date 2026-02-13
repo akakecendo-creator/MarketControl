@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "MarketControl": "Server=localhost;Database=MarketControl;User Id=sa;Password=<<<YOUR_PASSWORD>>>;TrustServerCertificate=True;"
+  }
+}

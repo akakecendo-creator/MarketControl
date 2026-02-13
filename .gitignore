@@ -4,3 +4,10 @@ obj/
 *.user
 *.suo
 *.db
+
+MarketControl.slnx
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+*.log

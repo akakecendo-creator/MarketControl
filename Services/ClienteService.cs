@@ -1,6 +1,8 @@
 ﻿using MarketControl.Data;
 using System;
 using Microsoft.Data.SqlClient;
+using MarketControl.Security;
+using MarketControl.Utils;
 
 namespace MarketControl.Services
 {
@@ -10,17 +12,16 @@ namespace MarketControl.Services
 
         public void CadastrarCliente()
         {
-            Console.Write("Nome: ");
-            string nome = Console.ReadLine();
+            AccessControl.RequireAdministrator();
 
-            Console.Write("Email: ");
-            string email = Console.ReadLine();
+            string nome = ConsoleInput.ReadRequiredString("Nome: ");
+            string email = ConsoleInput.ReadRequiredString("Email: ");
 
             using (var conn = db.GetConnection())
             {
                 conn.Open();
 
-                string sql = "INSERT INTO Cliente VALUES (@nome, @email)";
+                string sql = "INSERT INTO Cliente (Nome, Email) VALUES (@nome, @email)";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@nome", nome);
@@ -34,6 +35,8 @@ namespace MarketControl.Services
 
         public void ListarClientes()
         {
+            AccessControl.RequireOperatorOrAdministrator();
+
             using (var conn = db.GetConnection())
             {
                 conn.Open();

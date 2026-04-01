@@ -17,6 +17,16 @@ CREATE TABLE Cliente (
     Email VARCHAR(100)
 );
 
+CREATE TABLE Usuario (
+    Id INT IDENTITY PRIMARY KEY,
+    Login VARCHAR(50) NOT NULL UNIQUE,
+    SenhaHash VARCHAR(256) NOT NULL,
+    SenhaSalt VARCHAR(256) NOT NULL,
+    Perfil VARCHAR(20) NOT NULL,
+    Ativo BIT NOT NULL DEFAULT 1,
+    CONSTRAINT CK_Usuario_Perfil CHECK (Perfil IN ('Administrador', 'Operador'))
+);
+
 CREATE TABLE Venda (
     Id INT IDENTITY PRIMARY KEY,
     ClienteId INT,

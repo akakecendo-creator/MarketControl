@@ -1,7 +1,8 @@
 ﻿using MarketControl.Data;
-using MarketControl.Models;
 using System;
 using Microsoft.Data.SqlClient;
+using MarketControl.Security;
+using MarketControl.Utils;
 
 namespace MarketControl.Services
 {
@@ -11,20 +12,17 @@ namespace MarketControl.Services
 
         public void CadastrarProduto()
         {
-            Console.Write("Nome: ");
-            string nome = Console.ReadLine();
+            AccessControl.RequireAdministrator();
 
-            Console.Write("Preço: ");
-            decimal preco = decimal.Parse(Console.ReadLine());
-
-            Console.Write("Estoque: ");
-            int estoque = int.Parse(Console.ReadLine());
+            string nome = ConsoleInput.ReadRequiredString("Nome: ");
+            decimal preco = ConsoleInput.ReadDecimal("Preço: ", 0.01m);
+            int estoque = ConsoleInput.ReadInt("Estoque: ", 0);
 
             using (var conn = db.GetConnection())
             {
                 conn.Open();
 
-                string sql = "INSERT INTO Produto VALUES (@nome, @preco, @estoque)";
+                string sql = "INSERT INTO Produto (Nome, Preco, Estoque) VALUES (@nome, @preco, @estoque)";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@nome", nome);
@@ -39,6 +37,8 @@ namespace MarketControl.Services
 
         public void ListarProdutos()
         {
+            AccessControl.RequireOperatorOrAdministrator();
+
             using (var conn = db.GetConnection())
             {
                 conn.Open();
